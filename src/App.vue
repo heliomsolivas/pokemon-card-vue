@@ -1,5 +1,7 @@
 <template>
+	<div class="wrapper">
   <card></card>
+</div>
 </template>
 
 <script>

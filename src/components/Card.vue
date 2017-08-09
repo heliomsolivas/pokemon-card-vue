@@ -1,36 +1,59 @@
 <template>
-<div>
+<div class="w-cards">
 	<div v-for="pokemon in pokemons" class="card">
-	<h1>{{pokemon.nome}}</h1>
-	<img v-bind:src="pokemon.foto" v-bind:alt="pokemon.nome">
-	<p>{{pokemon.descricao}}</p>
+	<h1>{{pokemon.name}}</h1>
+	<!-- <img v-bind:src="pokemon.foto" v-bind:alt="pokemon.name"> -->
+	<!-- <p>{{pokemon.descricao}}</p> -->
 </div>
 </div>
 </template>
 
 <script>
 
-//Standard Directives
+import axios from 'axios'
 
 export default {
-  data() {
-  	return {
-    	pokemons: [
-    		{ nome: "Bulbasaur" , descricao: "Bulbasaur can be seen napping in bright sunlight. There is a seed on its back. By soaking up the sun's rays, the seed grows progressively larger.", foto: "http://assets.pokemon.com/assets/cms2/img/pokedex/full/001.png"},
-    		{ nome: "Ivysaur" , descricao: "There is a bud on this Pokémon's back. To support its weight, Ivysaur's legs and trunk grow thick and strong. If it starts spending more time lying in the sunlight, it's a sign that the bud will bloom into a large flower soon.", foto: "http://assets.pokemon.com/assets/cms2/img/pokedex/full/002.png"}
-    			  ]
-    		}
+	data() {
+		return {
+			pokemons: {
+
+			},
 		}
-}
+	},
+
+  	created: function() {
+  		this.buscaPokemons();
+  	},
+
+  	methods: {
+  		buscaPokemons: function(){
+  			var vm = this;
+  			axios.get('http://pokeapi.co/api/v2/pokemon')
+  			.then(function(res){
+  				console.log(res);
+  				console.log(res.data.results);
+  				vm.pokemons = res.data.results;
+  			})
+  			.catch(function(err){
+  				console.log(err);
+  			})
+  		}
+  	},
+  }
 </script>
 
 <style scoped>
+.w-cards{
+	max-width: 1170px;
+	margin: 0 auto;
+	display: flex;
+	justify-content:space-between;
+	flex-wrap:wrap;
+}
 	.card{
-		width: 300px;
 		border:1px solid black;
 		border-radius: 10px;
 		padding: 10px 20px;
-		float: left;
 		height: 450px;
 	}
 	img{
